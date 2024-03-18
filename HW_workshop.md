@@ -1,5 +1,5 @@
-1.
-CREATE MATERIALIZED VIEW latest_dropoff_time AS
+###1.
+```CREATE MATERIALIZED VIEW latest_dropoff_time AS
     WITH t AS (
         SELECT MAX(tpep_dropoff_datetime) AS latest_dropoff_time
         FROM trip_data
@@ -12,13 +12,16 @@ CREATE MATERIALIZED VIEW latest_dropoff_time AS
     WHERE trip_data.tpep_dropoff_datetime = t.latest_dropoff_time;
     
 select * from latest_dropoff_time;
+```
 
-
-2.
+###2.
+```
 with dane as(select avg(tpep_dropoff_datetime-tpep_pickup_datetime) as avgtrip_time,pulocationid|| ' '||dolocationid from trip_data group by 2) select * from dane order by 1 desc limit 1;
 with dane as (select pulocationid||' '||dolocationid as cos from trip_data) select count(*) from dane where cos='262 223'; 
+```
 
-3.
+###3.
+```
 psql -U root -d dev -h localhost -p 4566  -c 'select max(tpep_pickup_datetime) from trip_data limit 1' 
 with dane as (
         select t1.zone||' - '||t2.zone as trip
@@ -30,3 +33,4 @@ with dane as (
 
 -- 2022-01-03 10:53:33
 -- 2022-01-02 10:53:33
+```
